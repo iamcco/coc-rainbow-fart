@@ -1,0 +1,94 @@
+{
+  "publisher": "iamcco",
+  "name": "coc-rainbow-fart",
+  "description": "This extension will keep giving you compliment while you are coding.",
+  "version": "1.0.0",
+  "engines": {
+    "coc": "0.0.78"
+  },
+  "repository": {
+    "url": "https://github.com/iamcco/coc-rainbow-fart"
+  },
+  "activationEvents": [
+    "*",
+    "onCommand:rainbow-fart.enable"
+  ],
+  "main": "./out/index.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "rainbow-fart.enable",
+        "title": "🌈 Enable Rainbow Fart"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "rainbow-fart configuration",
+      "properties": {
+        "rainbow-fart.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "If enable rainbow-fart"
+        },
+        "rainbow-fart.trace.server": {
+          "type": "string",
+          "default": "off",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "description": "Trace level of log"
+        },
+        "rainbow-fart.voice-packages": {
+          "type": "array",
+          "default": [],
+          "item": "string",
+          "description": "Voice package paths"
+        },
+        "rainbow-fart.disable-voice-packages": {
+          "type": "array",
+          "default": [],
+          "item": "string",
+          "description": "Disabled voice package names"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "lint": "eslint --fix ./src/**/*.ts",
+    "build": "webpack"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.2",
+    "@types/got": "^9.6.11",
+    "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "coc.nvim": "^0.0.77",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "esm": "^3.2.25",
+    "got": "9.6.0",
+    "husky": "^3.0.9",
+    "json-format": "^1.0.1",
+    "less": "^3.11.1",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^1.18.2",
+    "ts-loader": "^6.0.4",
+    "tunnel": "0.0.6",
+    "typescript": "^3.5.3",
+    "vscode-languageserver-protocol": "^3.15.3",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "glob": "^7.1.6",
+    "jszip": "^3.4.0"
+  }
+}
