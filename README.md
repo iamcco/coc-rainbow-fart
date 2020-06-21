@@ -13,6 +13,19 @@
 :CocInstall coc-rainbow-fart
 ```
 
+## Usage
+
+**Config**:
+
+- `rainbow-fart.enabled`: Enable extension, default: `true`
+- `rainbow-fart.trace.server`: Trace level of log, default: `off`
+- `rainbow-fart.voice-packages`: Add your own voice packages, default: `[]`
+- `rainbow-fart.disable-voice-packages`: Disable voice package, default: `[]`
+
+**Commands**:
+
+- `rainbow-fart.enable` Enable extension
+
 ## License
 
 Open source based on **MIT**, including all design resources and audio resources.
