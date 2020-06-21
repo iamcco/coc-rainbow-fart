@@ -2,6 +2,7 @@ import { logger } from './logger';
 import { readFile, glob } from './utils';
 import { Dispose } from './dispose';
 import settings from './settings';
+import { workspace } from 'coc.nvim';
 
 const log = logger.getLog('assets');
 
@@ -41,6 +42,8 @@ export class Assets extends Dispose {
 
   async loadPackage(voicePackagePath: string) {
     let files: string[] = [];
+    const cfg = workspace.getConfiguration('rainbow-fart');
+    const locale = cfg.get<string[]>('locale', ['zh']);
     try {
       files = await glob('*.json', voicePackagePath);
     } catch (error) {
@@ -63,11 +66,12 @@ export class Assets extends Dispose {
       return true;
     });
 
-    isValid &&
+    if (isValid && locale.indexOf(config.locale) !== -1) {
       this.voicePackages.push({
         ...config,
         path: voicePackagePath,
       });
+    }
   }
 
   dispose() {

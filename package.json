@@ -2,7 +2,7 @@
   "publisher": "iamcco",
   "name": "coc-rainbow-fart",
   "description": "This extension will keep giving you compliment while you are coding.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "coc": "0.0.78"
   },
@@ -39,6 +39,12 @@
             "verbose"
           ],
           "description": "Trace level of log"
+        },
+        "rainbow-fart.locale": {
+          "type": "string",
+          "default": "['zh']",
+          "item": "string",
+          "description": "Enable locale of voice package"
         },
         "rainbow-fart.voice-packages": {
           "type": "array",

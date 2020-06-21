@@ -19,6 +19,7 @@
 
 - `rainbow-fart.enabled`: Enable extension, default: `true`
 - `rainbow-fart.trace.server`: Trace level of log, default: `off`
+- `rainbow-fart.locale`: Enable locale of voice package, default: `['zh']`
 - `rainbow-fart.voice-packages`: Add your own voice packages, default: `[]`
 - `rainbow-fart.disable-voice-packages`: Disable voice package, default: `[]`
 
