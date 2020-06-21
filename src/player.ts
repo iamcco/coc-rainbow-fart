@@ -53,6 +53,8 @@ class Player extends Dispose {
       spawn(this.cmd, ['-vn', '-v', 'error', '-nodisp', '-autoexit', path]).on('exit', () => {
         this.isPlaying = false;
       });
+    } else if (!this.cmd) {
+      log(`${this.cmd} does not exists`);
     }
   }
 }
