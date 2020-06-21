@@ -18,6 +18,7 @@ const ffplayUrls = {
 
 class Player extends Dispose {
   cmd = '';
+  isPlaying = false;
 
   async init(context: ExtensionContext) {
     const dataPath = context.storagePath;
@@ -47,8 +48,11 @@ class Player extends Dispose {
 
   play(path: string) {
     log(`play ${path}`);
-    if (path && this.cmd) {
-      spawn(this.cmd, ['-vn', '-v', 'error', '-nodisp', '-autoexit', path]);
+    if (path && this.cmd && !this.isPlaying) {
+      this.isPlaying = true;
+      spawn(this.cmd, ['-vn', '-v', 'error', '-nodisp', '-autoexit', path]).on('exit', () => {
+        this.isPlaying = false;
+      });
     }
   }
 }

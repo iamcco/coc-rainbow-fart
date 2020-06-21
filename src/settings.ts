@@ -1,4 +1,5 @@
 import path from 'path';
+import { homedir } from 'os';
 import { workspace, ExtensionContext } from 'coc.nvim';
 
 import { Dispose } from './dispose';
@@ -42,7 +43,8 @@ class Settings extends Dispose {
   get voicePackages() {
     const config = workspace.getConfiguration('rainbow-fart');
     const voicePackages = config.get<string[]>('voice-packages', []);
-    return this.builtInVoicePackages.concat(voicePackages);
+
+    return this.builtInVoicePackages.concat(voicePackages.map(p => p.replace(/^\$HOME/, homedir())));
   }
 
   isVoicePackageDisabled(name: string) {
