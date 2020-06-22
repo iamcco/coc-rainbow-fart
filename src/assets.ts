@@ -6,10 +6,9 @@ import { workspace } from 'coc.nvim';
 
 const log = logger.getLog('assets');
 
-const requiredProperties = ['name', 'version', 'contributes'];
+export const requiredProperties = ['name', 'version', 'contributes'];
 
 export interface VoicePackage {
-  enabled: boolean;
   name: string;
   'display-name': string;
   avatar: string;
@@ -28,10 +27,25 @@ export interface VoicePackage {
 }
 
 export class Assets extends Dispose {
-  voicePackages: VoicePackage[] = [];
+  private _voicePackages: VoicePackage[] = [];
+
+  get voicePackages() {
+    const cfg = workspace.getConfiguration('rainbow-fart');
+    const locale = cfg.get<string[]>('locale', ['zh']);
+    return this._voicePackages.filter(p => {
+      const isValid = requiredProperties.every(field => {
+        return p[field] !== undefined;
+      });
+      return isValid && locale.indexOf(p.locale) !== -1 && !settings.isVoicePackageDisabled(p.name);
+    });
+  }
+
+  get allVoicePackages() {
+    return this._voicePackages.slice(0);
+  }
 
   async init() {
-    this.voicePackages = [];
+    this._voicePackages = [];
     const voicePackages = settings.voicePackages;
 
     for (const voicePackagePath of voicePackages) {
@@ -42,8 +56,6 @@ export class Assets extends Dispose {
 
   async loadPackage(voicePackagePath: string) {
     let files: string[] = [];
-    const cfg = workspace.getConfiguration('rainbow-fart');
-    const locale = cfg.get<string[]>('locale', ['zh']);
     try {
       files = await glob('*.json', voicePackagePath);
     } catch (error) {
@@ -58,7 +70,7 @@ export class Assets extends Dispose {
         log(e);
       }
     }
-    const isValid = requiredProperties.every(field => {
+    requiredProperties.every(field => {
       if (!config[field]) {
         log(`Voice package ${voicePackagePath} require include ${field} field`);
         return false;
@@ -66,16 +78,14 @@ export class Assets extends Dispose {
       return true;
     });
 
-    if (isValid && locale.indexOf(config.locale) !== -1) {
-      this.voicePackages.push({
-        ...config,
-        path: voicePackagePath,
-      });
-    }
+    this._voicePackages.push({
+      ...config,
+      path: voicePackagePath,
+    });
   }
 
   dispose() {
-    this.voicePackages = [];
+    this._voicePackages = [];
   }
 }
 

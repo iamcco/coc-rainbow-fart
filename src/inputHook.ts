@@ -2,7 +2,6 @@ import { workspace } from 'coc.nvim';
 import assets from './assets';
 import { Dispose } from './dispose';
 import player from './player';
-import settings from './settings';
 import { join } from 'path';
 
 export class InputHook extends Dispose {
@@ -36,9 +35,6 @@ export class InputHook extends Dispose {
     const candidate: string[] = [];
 
     assets.voicePackages.forEach(voicePackage => {
-      if (settings.isVoicePackageDisabled(voicePackage.name)) {
-        return;
-      }
       voicePackage.contributes.forEach(contribute => {
         if (!Array.isArray(contribute.keywords)) {
           contribute.keywords = [contribute.keywords];

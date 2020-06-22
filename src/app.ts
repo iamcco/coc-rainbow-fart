@@ -8,6 +8,7 @@ import inputHook from './inputHook';
 import { Dispose } from './dispose';
 import player from './player';
 import { logger, logLevel } from './logger';
+import { Sources } from './sources';
 
 export class App extends Dispose {
   isEnabled = false;
@@ -36,6 +37,7 @@ export class App extends Dispose {
     this.push(await assets.init());
     this.push(timerHook.init());
     this.push(inputHook.init());
+    this.push(new Sources());
   }
 }
 

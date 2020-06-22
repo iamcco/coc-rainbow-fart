@@ -29,6 +29,12 @@
 
 - `rainbow-fart.enable` Enable extension
 
+**Sources**:
+
+- `CocList VoicePackages`: voice packages
+  > - `Enable` enable voice package
+  > - `Disable` disable voice package
+
 ## License
 
 Open source based on **MIT**, including all design resources and audio resources.
