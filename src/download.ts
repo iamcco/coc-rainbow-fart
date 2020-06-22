@@ -24,7 +24,10 @@ export default class HunkStream extends Writable {
 }
 
 function getAgent(): Agent | undefined {
-  const proxy = workspace.getConfiguration('http').get<string>('proxy', '');
+  let proxy = workspace.getConfiguration('http').get<string>('proxy', '');
+  if (!proxy && process.env['http_proxy']) {
+    proxy = process.env['http_proxy'];
+  }
   if (proxy) {
     const auth = proxy.includes('@') ? proxy.split('@', 2)[0] : '';
     const parts = auth.length ? proxy.slice(auth.length + 1).split(':') : proxy.split(':');
