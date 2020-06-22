@@ -1,5 +1,5 @@
 import { workspace, ExtensionContext } from 'coc.nvim';
-import os from 'os';
+import os, { homedir } from 'os';
 import { Dispose } from './dispose';
 import { join } from 'path';
 
@@ -21,28 +21,34 @@ class Player extends Dispose {
   isPlaying = false;
 
   async init(context: ExtensionContext) {
-    const dataPath = context.storagePath;
-    let isExists = await exists(dataPath);
-    const platform = ffplayUrls[os.platform()];
-    if (!platform) {
-      workspace.showMessage('Your platform is not supported by now!');
-    }
-    if (!isExists) {
-      await mkdirs(dataPath);
-    }
-    const cmd = join(dataPath, platform[1]);
-    isExists = await exists(cmd);
-
-    if (!isExists) {
-      try {
-        log(`${cmd} ${platform[0]} ${platform[1]}`);
-        await download(cmd, platform[0], platform[1]);
-        this.cmd = cmd;
-      } catch (error) {
-        log(`download error ${error}`);
+    const config = workspace.getConfiguration('rainbow-fart');
+    const ffplay = config.get<string>('ffplay', '');
+    if (ffplay !== '') {
+      this.cmd = ffplay.replace(/^\$HOME/, homedir());
+    } else {
+      const dataPath = context.storagePath;
+      let isExists = await exists(dataPath);
+      const platform = ffplayUrls[os.platform()];
+      if (!platform) {
+        workspace.showMessage('Your platform is not supported by now!');
       }
+      if (!isExists) {
+        await mkdirs(dataPath);
+      }
+      const cmd = join(dataPath, platform[1]);
+      isExists = await exists(cmd);
+
+      if (!isExists) {
+        try {
+          log(`${cmd} ${platform[0]} ${platform[1]}`);
+          await download(cmd, platform[0], platform[1]);
+          this.cmd = cmd;
+        } catch (error) {
+          log(`download error ${error}`);
+        }
+      }
+      this.cmd = cmd;
     }
-    this.cmd = cmd;
     return this;
   }
 
