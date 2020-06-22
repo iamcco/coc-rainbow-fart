@@ -2,10 +2,16 @@
   "publisher": "iamcco",
   "name": "coc-rainbow-fart",
   "description": "This extension will keep giving you compliment while you are coding.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "engines": {
     "coc": "0.0.78"
   },
+  "keywords": [
+    "coc.nvim",
+    "rainbow",
+    "fart",
+    "rainbow-fart"
+  ],
   "repository": {
     "url": "https://github.com/iamcco/coc-rainbow-fart"
   },
