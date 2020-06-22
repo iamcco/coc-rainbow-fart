@@ -47,8 +47,10 @@
           "description": "Trace level of log"
         },
         "rainbow-fart.locale": {
-          "type": "string",
-          "default": "['zh']",
+          "type": "array",
+          "default": [
+            "zh"
+          ],
           "item": "string",
           "description": "Enable locale of voice package"
         },
