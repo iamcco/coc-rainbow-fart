@@ -22,6 +22,7 @@ export interface VoicePackage {
   path: string;
   contributes: Array<{
     keywords: string[];
+    regexps: string[];
     voices: string[];
   }>;
 }

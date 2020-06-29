@@ -36,19 +36,30 @@ export class InputHook extends Dispose {
 
     assets.voicePackages.forEach(voicePackage => {
       voicePackage.contributes.forEach(contribute => {
-        if (!Array.isArray(contribute.keywords)) {
-          contribute.keywords = [contribute.keywords];
-        }
-        contribute.keywords.forEach(keyword => {
-          if (this.inputHistory.indexOf(keyword) != -1) {
-            if (!Array.isArray(contribute.voices)) {
-              contribute.voices = [contribute.voices];
-            }
-            candidate.push(
-              join(voicePackage.path, contribute.voices[Math.floor(contribute.voices.length * Math.random())]),
-            );
+        let triggered = false;
+        const keywords = ([] as string[]).concat(contribute.keywords || ([] as string[]));
+        keywords.some(keyword => {
+          if (this.inputHistory.indexOf(keyword) !== -1) {
+            triggered = true;
+            return true;
           }
+          return false;
         });
+        // check regex when not triggered
+        if (!triggered) {
+          const regexps = ([] as string[]).concat(contribute.regexps || ([] as string[]));
+          regexps.forEach(regexp => {
+            if (RegExp(regexp).test(this.inputHistory)) {
+              triggered = true;
+              return true;
+            }
+            return false;
+          });
+        }
+        if (triggered) {
+          const voices = ([] as string[]).concat(contribute.voices);
+          candidate.push(join(voicePackage.path, voices[Math.floor(voices.length * Math.random())]));
+        }
       });
     });
 
